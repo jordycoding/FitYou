@@ -1,6 +1,7 @@
 package com.alkema.fityou
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
@@ -22,10 +23,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -33,6 +37,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.alkema.fityou.ui.fitness.FitnessView
+import com.alkema.fityou.ui.fitness.exercises.AddExerciseView
 import com.alkema.fityou.ui.theme.FitYouTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,12 +53,29 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainView()
+                    CompositionLocalProvider(LocalNavOptions provides NavOptions(navController)) {
+                        NavHost(navController = navController, startDestination = "main") {
+                            composable("main") { MainView(parentNavController = navController) }
+                            composable("addExercise") { AddExerciseView() }
+                        }
+                    }
                 }
             }
         }
     }
 }
+
+class NavOptions constructor(private val navController: NavController) {
+    fun addExercise() {
+        navController.navigate("addExercise")
+    }
+
+    fun goBack() {
+        navController.navigate("main")
+    }
+}
+
+val LocalNavOptions = compositionLocalOf<NavOptions> { error("No nav options") }
 
 sealed class Screen(
     val route: String,
@@ -77,11 +99,13 @@ sealed class Screen(
     )
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainView(modifier: Modifier = Modifier) {
+fun MainView(modifier: Modifier = Modifier, parentNavController: NavController) {
     val items = listOf(Screen.Home, Screen.Calendar, Screen.Exercises)
     val navController = rememberNavController()
+
     Scaffold(
         bottomBar = {
             NavigationBar {
@@ -116,7 +140,9 @@ fun MainView(modifier: Modifier = Modifier) {
         ) {
             composable(Screen.Home.route) { Text("Home") }
             composable(Screen.Calendar.route) { Text("calendar") }
-            composable(Screen.Exercises.route) { FitnessView() }
+            composable(Screen.Exercises.route) {
+                FitnessView()
+            }
         }
     }
 }
