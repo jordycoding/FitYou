@@ -5,6 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.alkema.fityou.domain.db.entities.Exercise
+import dagger.Provides
+import javax.inject.Singleton
 
 @Dao
 interface ExerciseDao {

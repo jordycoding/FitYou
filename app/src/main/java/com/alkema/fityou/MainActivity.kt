@@ -1,6 +1,5 @@
 package com.alkema.fityou
 
-import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,13 +26,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.alkema.fityou.ui.fitness.FitnessView
 import com.alkema.fityou.ui.theme.FitYouTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -117,7 +116,7 @@ fun MainView(modifier: Modifier = Modifier) {
         ) {
             composable(Screen.Home.route) { Text("Home") }
             composable(Screen.Calendar.route) { Text("calendar") }
-            composable(Screen.Exercises.route) { Text("exercises") }
+            composable(Screen.Exercises.route) { FitnessView() }
         }
     }
 }
