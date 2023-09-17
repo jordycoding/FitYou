@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class MuscleGroup(
-    @PrimaryKey val muscleGroupId: Long,
+    @PrimaryKey(autoGenerate = true) val muscleGroupId: Long,
     val muscleGroupName: String
 )

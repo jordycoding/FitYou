@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Subroutine(
-    @PrimaryKey val subroutineId: Long,
+    @PrimaryKey(autoGenerate = true) val subroutineId: Long,
     val routineId: Long,
     val subroutineName: String
 )

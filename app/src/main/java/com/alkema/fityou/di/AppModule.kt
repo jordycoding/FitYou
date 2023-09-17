@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.alkema.fityou.data.db.AppDatabase
 import com.alkema.fityou.data.db.ExerciseDao
+import com.alkema.fityou.data.db.MuscleGroupDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +26,11 @@ object AppModule {
     @Singleton
     fun provideExerciseDao(appDatabase: AppDatabase): ExerciseDao {
         return appDatabase.exerciseDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMuscleGroupDao(appDatabase: AppDatabase): MuscleGroupDao {
+        return appDatabase.muscleGroupDao()
     }
 }

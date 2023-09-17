@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Routine(
-    @PrimaryKey val routineId: Long,
+    @PrimaryKey(autoGenerate = true) val routineId: Long,
     val routineName: String
 )

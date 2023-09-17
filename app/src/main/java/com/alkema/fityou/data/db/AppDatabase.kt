@@ -14,4 +14,5 @@ import com.alkema.fityou.domain.db.entities.Subroutine
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
+    abstract fun muscleGroupDao(): MuscleGroupDao
 }
