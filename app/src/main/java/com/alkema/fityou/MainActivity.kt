@@ -36,6 +36,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.alkema.fityou.domain.db.entities.Exercise
+import com.alkema.fityou.domain.db.entities.MuscleGroup
 import com.alkema.fityou.ui.fitness.FitnessView
 import com.alkema.fityou.ui.fitness.exercises.AddExerciseView
 import com.alkema.fityou.ui.theme.FitYouTheme
@@ -71,7 +73,7 @@ class NavOptions constructor(private val navController: NavController) {
     }
 
     fun goBack() {
-        navController.navigate("main")
+        navController.popBackStack()
     }
 }
 

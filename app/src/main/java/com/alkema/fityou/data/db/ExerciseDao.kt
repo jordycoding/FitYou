@@ -14,7 +14,7 @@ interface ExerciseDao {
     fun getAll(): List<Exercise>
 
     @Insert
-    fun insertAll(vararg exercises: Exercise)
+    fun insertAll(vararg exercises: Exercise): List<Long>
 
     @Delete
     fun delete(exercise: Exercise)
