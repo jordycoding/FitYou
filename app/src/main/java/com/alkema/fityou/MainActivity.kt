@@ -1,7 +1,6 @@
 package com.alkema.fityou
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
@@ -36,12 +35,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.alkema.fityou.domain.db.entities.Exercise
-import com.alkema.fityou.domain.db.entities.MuscleGroup
 import com.alkema.fityou.ui.fitness.FitnessView
 import com.alkema.fityou.ui.fitness.exercises.AddExerciseView
 import com.alkema.fityou.ui.theme.FitYouTheme
 import com.alkema.fityou.ui.today.TodayView
+import com.alkema.fityou.ui.today.addWorkout.LogExerciseView
+import com.alkema.fityou.ui.today.addWorkout.LogWorkoutView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,6 +59,8 @@ class MainActivity : ComponentActivity() {
                         NavHost(navController = navController, startDestination = "main") {
                             composable("main") { MainView(parentNavController = navController) }
                             composable("addExercise") { AddExerciseView() }
+                            composable("logWorkoutView") { LogWorkoutView() }
+                            composable("logExercise") { LogExerciseView() }
                         }
                     }
                 }
@@ -71,6 +72,14 @@ class MainActivity : ComponentActivity() {
 class NavOptions constructor(private val navController: NavController) {
     fun addExercise() {
         navController.navigate("addExercise")
+    }
+
+    fun addWorkout() {
+        navController.navigate("logWorkoutView")
+    }
+
+    fun logExercise() {
+        navController.navigate("logExercise")
     }
 
     fun goBack() {

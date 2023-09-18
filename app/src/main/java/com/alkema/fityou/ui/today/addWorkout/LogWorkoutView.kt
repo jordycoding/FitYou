@@ -1,32 +1,43 @@
-package com.alkema.fityou.ui.today
+package com.alkema.fityou.ui.today.addWorkout
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.alkema.fityou.LocalNavOptions
-import java.text.DateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodayView(modifier: Modifier = Modifier) {
-    val viewModel = hiltViewModel<TodayViewModel>()
+fun LogWorkoutView(modifier: Modifier = Modifier) {
     val navOptions = LocalNavOptions.current
-
     Scaffold(
+        topBar = {
+            TopAppBar(title = { Text(text = ("Log workout")) },
+                navigationIcon = {
+                    IconButton(onClick = { navOptions.goBack() }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                actions = {
+                    TextButton(onClick = { /*TODO*/ }) {
+                        Text("Save")
+                    }
+                })
+        },
         floatingActionButton = {
-            FloatingActionButton(onClick = {navOptions.addWorkout()}) {
+            FloatingActionButton(onClick = { navOptions.logExercise() }) {
                 Icon(Icons.Filled.Add, contentDescription = null)
             }
         }
@@ -34,9 +45,9 @@ fun TodayView(modifier: Modifier = Modifier) {
         Column(
             Modifier
                 .padding(innerPadding)
-                .padding(10.dp)) {
-            Text(text = "Today", fontSize = 28.sp)
-            Text(text = viewModel.dayOfWeek, fontSize = 18.sp, fontWeight = FontWeight.Light)
+                .padding(10.dp)
+        ) {
+            Text("Adding workout")
         }
     }
 }
