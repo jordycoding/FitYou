@@ -41,6 +41,7 @@ import com.alkema.fityou.domain.db.entities.MuscleGroup
 import com.alkema.fityou.ui.fitness.FitnessView
 import com.alkema.fityou.ui.fitness.exercises.AddExerciseView
 import com.alkema.fityou.ui.theme.FitYouTheme
+import com.alkema.fityou.ui.today.TodayView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -140,7 +141,7 @@ fun MainView(modifier: Modifier = Modifier, parentNavController: NavController) 
             startDestination = Screen.Home.route,
             modifier.padding(innerPadding)
         ) {
-            composable(Screen.Home.route) { Text("Home") }
+            composable(Screen.Home.route) { TodayView() }
             composable(Screen.Calendar.route) { Text("calendar") }
             composable(Screen.Exercises.route) {
                 FitnessView()
