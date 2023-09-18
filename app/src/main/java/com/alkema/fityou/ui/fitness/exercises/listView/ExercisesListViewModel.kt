@@ -25,4 +25,10 @@ class ExercisesListViewModel @Inject constructor(private val exerciseDao: Exerci
             _exercisesList.value = result
         }
     }
+
+    fun removeExercise(exercise: Exercise) {
+        viewModelScope.launch(Dispatchers.IO) {
+            exerciseDao.delete(exercise)
+        }
+    }
 }
