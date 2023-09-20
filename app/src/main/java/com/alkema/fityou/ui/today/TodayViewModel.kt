@@ -37,6 +37,7 @@ class TodayViewModel @Inject constructor(val workoutDao: WorkoutDao, val exercis
         var entriesWithExercises: MutableList<Entry> = mutableListOf()
         viewModelScope.launch(Dispatchers.IO) {
             val result = workoutDao.getWorkoutWithEntriesAndExercises()
+            _workouts.clear()
             _workouts.addAll(result.filter { it.entries.isNotEmpty() })
             Log.d("Entry", result.toString())
         }

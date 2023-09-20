@@ -7,8 +7,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.alkema.fityou.domain.db.ExerciseWithMuscleGroups
 import com.alkema.fityou.domain.db.entities.Exercise
-import dagger.Provides
-import javax.inject.Singleton
 
 @Dao
 interface ExerciseDao {
@@ -20,7 +18,7 @@ interface ExerciseDao {
 
     @Transaction
     @Query("SELECT * FROM Exercise")
-    fun getExerciseWithMuscleGroups(): List<ExerciseWithMuscleGroups>
+    fun getExercisesWithMuscleGroups(): List<ExerciseWithMuscleGroups>
 
 
     @Insert

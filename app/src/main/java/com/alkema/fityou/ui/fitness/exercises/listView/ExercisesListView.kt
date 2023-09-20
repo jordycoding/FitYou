@@ -5,9 +5,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,12 +30,21 @@ fun ExercisesListView(
     }
     val exercisesList = viewModel.exercisesList.value
     LazyColumn {
-        items(exercisesList) { exercise ->
-            ListItem(headlineText = { Text(exercise.exerciseName) }, trailingContent = {
-                if (showDelete) IconButton(onClick = { viewModel.removeExercise(exercise) }) {
-                    Icon(Icons.Filled.Delete, contentDescription = null)
-                }
-            })
+        items(exercisesList
+            .groupBy { it.muscleGroups }.map { it.key to it.value }) { (muscleGroup, exercises) ->
+            ListItem(headlineText = { Text(muscleGroup.joinToString(separator = "/") { it.muscleGroupName }, modifier = Modifier.clickable {
+                viewModel.filterToggle(muscleGroup)
+            }) })
+            Divider()
+            exercises.filter{!viewModel.filteredOut.contains(it.muscleGroups)}.forEach { exercise ->
+                ListItem(
+                    headlineText = { Text(exercise.exercise.exerciseName) },
+                    trailingContent = {
+                        if (showDelete) IconButton(onClick = { viewModel.removeExercise(exercise.exercise) }) {
+                            Icon(Icons.Filled.Delete, contentDescription = null)
+                        }
+                    })
+            }
         }
     }
 }

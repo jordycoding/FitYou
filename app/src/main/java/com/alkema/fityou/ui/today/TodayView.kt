@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -38,27 +39,32 @@ fun TodayView(modifier: Modifier = Modifier) {
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = {navOptions.addWorkout()}) {
+            FloatingActionButton(onClick = { navOptions.addWorkout() }) {
                 Icon(Icons.Filled.Add, contentDescription = null)
             }
         }
-    ) { innerPadding ->
+    ) { paddingValues ->
         Column(
             Modifier
-                .padding(innerPadding)
-                .padding(10.dp)) {
-            Text(text = "Today", fontSize = 28.sp)
-            Text(text = viewModel.dayOfWeek, fontSize = 18.sp, fontWeight = FontWeight.Light, modifier = Modifier.padding(bottom = 10.dp))
-            LazyColumn{
-                items(viewModel.workouts) {workout ->
-                    ElevatedCard {
-                        Column(
-                            Modifier
-                                .padding(10.dp)
-                                .fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                           Text(text = "Workout", style = MaterialTheme.typography.titleLarge)
-                            workout.entries.forEach {entry ->
-                                Text("${entry.exercise.exerciseName} ${entry.workoutEntry.reps} reps of ${entry.workoutEntry.weight} kgs")
+                .padding(paddingValues)
+                .padding(15.dp)
+        ) {
+            Text(text = "Today", style = MaterialTheme.typography.headlineLarge)
+            Text(
+                text = viewModel.dayOfWeek,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Light,
+                modifier = Modifier.padding(bottom = 10.dp)
+            )
+            LazyColumn(Modifier.padding(top = 5.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                items(viewModel.workouts) { workout ->
+                    workout.entries.groupBy { it.exercise.exerciseName }.forEach { entry ->
+                        ElevatedCard(Modifier.fillMaxWidth()) {
+                            Column(Modifier.padding(10.dp)) {
+                                Text(entry.key, style = MaterialTheme.typography.titleLarge)
+                                entry.value.forEach { set ->
+                                    Text("${set.workoutEntry.reps} reps ${set.workoutEntry.weight} kgs")
+                                }
                             }
                         }
                     }

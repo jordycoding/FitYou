@@ -3,14 +3,12 @@ package com.alkema.fityou.ui.today.addWorkout
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alkema.fityou.data.db.ExerciseDao
 import com.alkema.fityou.data.db.WorkoutEntryDao
 import com.alkema.fityou.domain.db.ExerciseWithMuscleGroups
-import com.alkema.fityou.domain.db.entities.Exercise
 import com.alkema.fityou.domain.db.entities.WorkoutEntry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +27,7 @@ class LogExerciseViewModel @Inject constructor(
 
     fun getExercisesList() {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = exerciseDao.getExerciseWithMuscleGroups()
+            val result = exerciseDao.getExercisesWithMuscleGroups()
             _exercisesList.value = result
         }
     }
