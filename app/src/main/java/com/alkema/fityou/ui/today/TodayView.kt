@@ -39,7 +39,7 @@ fun TodayView(modifier: Modifier = Modifier) {
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { navOptions.addWorkout() }) {
+            FloatingActionButton(onClick = { viewModel.addWorkout(navOptions) }) {
                 Icon(Icons.Filled.Add, contentDescription = null)
             }
         }

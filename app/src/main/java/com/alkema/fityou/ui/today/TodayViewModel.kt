@@ -6,11 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alkema.fityou.NavOptions
 import com.alkema.fityou.data.db.ExerciseDao
 import com.alkema.fityou.data.db.WorkoutDao
 import com.alkema.fityou.domain.db.WorkoutWithEntries
 import com.alkema.fityou.domain.db.WorkoutWithEntriesAndExercises
 import com.alkema.fityou.domain.db.entities.Exercise
+import com.alkema.fityou.domain.usecases.CreateNewWorkoutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,8 +22,12 @@ import java.util.Date
 import javax.inject.Inject
 
 data class Entry(val workoutEntry: WorkoutWithEntries, val exercise: Exercise)
+
 @HiltViewModel
-class TodayViewModel @Inject constructor(val workoutDao: WorkoutDao, val exerciseDao: ExerciseDao) :
+class TodayViewModel @Inject constructor(
+    val workoutDao: WorkoutDao, val exerciseDao: ExerciseDao,
+    val createNewWorkoutUseCase: CreateNewWorkoutUseCase
+) :
     ViewModel() {
     val sdf = SimpleDateFormat("EEEE d MMMM")
     val d = Date()
@@ -40,6 +46,13 @@ class TodayViewModel @Inject constructor(val workoutDao: WorkoutDao, val exercis
             _workouts.clear()
             _workouts.addAll(result.filter { it.entries.isNotEmpty() })
             Log.d("Entry", result.toString())
+        }
+    }
+
+    fun addWorkout(navOptions: NavOptions) {
+        viewModelScope.launch {
+            val result = createNewWorkoutUseCase()
+            navOptions.logExercise(result)
         }
     }
 }

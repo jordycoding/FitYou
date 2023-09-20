@@ -11,8 +11,11 @@ import com.alkema.fityou.domain.db.entities.Workout
 
 @Dao
 interface WorkoutDao {
-    @Query("SELECT * FROM Workout")
-    fun getAll(): List<Workout>
+    @Query("SELECT * FROM Workout WHERE createdAt >= :minTime")
+    fun getAll(minTime: Long = 0): List<Workout>
+
+    @Query("SELECT COUNT(*) FROM Workout WHERE createdAt >= :minTime")
+    fun getWorkoutCountFromTime(minTime: Long): Int
 
     @Transaction
     @Query("SELECT * FROM Workout")
@@ -27,8 +30,8 @@ interface WorkoutDao {
     fun getWorkoutEntriesWithExercises(): List<WorkoutEntryWithExercise>
 
     @Transaction
-    @Query("SELECT * FROM Workout")
-    fun getWorkoutWithEntriesAndExercises(): List<WorkoutWithEntriesAndExercises>
+    @Query("SELECT * FROM Workout WHERE createdAt >= :minTime")
+    fun getWorkoutWithEntriesAndExercises(minTime: Long = 0): List<WorkoutWithEntriesAndExercises>
 
     @Insert
     fun insertAll(vararg workout: Workout): List<Long>
