@@ -46,7 +46,7 @@ import com.alkema.fityou.domain.db.entities.Exercise
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LogExerciseView(modifier: Modifier = Modifier) {
+fun LogExerciseView(modifier: Modifier = Modifier, workoutId: Long) {
     val navOptions = LocalNavOptions.current
     val viewModel = hiltViewModel<LogExerciseViewModel>()
     var isExpanded by remember { mutableStateOf(false) }
@@ -60,7 +60,11 @@ fun LogExerciseView(modifier: Modifier = Modifier) {
 
     Scaffold(topBar = {
         TopAppBar(title = { Text("Log exercise") }, actions = {
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = {
+                selectedExercise?.exercise?.exerciseId?.let {
+                    viewModel.save(it, workoutId)
+                }
+            }) {
                 Text(text = "Save")
             }
         }, navigationIcon = {
@@ -138,7 +142,11 @@ fun LogExerciseView(modifier: Modifier = Modifier) {
                 }
 
             }
-            Button(onClick = { viewModel.addEntry(weight, reps) }, Modifier.fillMaxWidth(), enabled = selectedExercise != null) {
+            Button(
+                onClick = { viewModel.addEntry(weight, reps) },
+                Modifier.fillMaxWidth(),
+                enabled = selectedExercise != null
+            ) {
                 Text("Add")
             }
             LazyColumn {

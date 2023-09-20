@@ -15,6 +15,9 @@ interface ExerciseDao {
     @Query("SELECT * FROM Exercise")
     fun getAll(): List<Exercise>
 
+    @Query("SELECT * FROM Exercise WHERE exerciseId = :id")
+    fun getOne(id: Long): Exercise
+
     @Transaction
     @Query("SELECT * FROM Exercise")
     fun getExerciseWithMuscleGroups(): List<ExerciseWithMuscleGroups>

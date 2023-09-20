@@ -14,30 +14,33 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.alkema.fityou.LocalNavOptions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogWorkoutView(modifier: Modifier = Modifier) {
     val navOptions = LocalNavOptions.current
+    val viewModel = hiltViewModel<LogWorkoutViewModel>()
+
+    LaunchedEffect(Unit) {
+        viewModel.createWorkout()
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = ("Log workout")) },
-                navigationIcon = {
-                    IconButton(onClick = { navOptions.goBack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
-                    }
-                },
                 actions = {
-                    TextButton(onClick = { /*TODO*/ }) {
-                        Text("Save")
+                    TextButton(onClick = { navOptions.goBack() }) {
+                        Text("Done")
                     }
                 })
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navOptions.logExercise() }) {
+            FloatingActionButton(onClick = { navOptions.logExercise(viewModel.workoutId) }) {
                 Icon(Icons.Filled.Add, contentDescription = null)
             }
         }

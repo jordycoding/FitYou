@@ -31,10 +31,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.alkema.fityou.ui.fitness.FitnessView
 import com.alkema.fityou.ui.fitness.exercises.AddExerciseView
 import com.alkema.fityou.ui.theme.FitYouTheme
@@ -60,7 +62,12 @@ class MainActivity : ComponentActivity() {
                             composable("main") { MainView(parentNavController = navController) }
                             composable("addExercise") { AddExerciseView() }
                             composable("logWorkoutView") { LogWorkoutView() }
-                            composable("logExercise") { LogExerciseView() }
+                            composable(
+                                "logExercise/{workoutId}",
+                                arguments = listOf(navArgument("workoutId") {
+                                    type = NavType.LongType
+                                })
+                            ) { backStackEntry -> LogExerciseView(workoutId = backStackEntry.arguments?.getLong("workoutId") ?: -1) }
                         }
                     }
                 }
@@ -78,8 +85,8 @@ class NavOptions constructor(private val navController: NavController) {
         navController.navigate("logWorkoutView")
     }
 
-    fun logExercise() {
-        navController.navigate("logExercise")
+    fun logExercise(workoutId: Long) {
+        navController.navigate("logExercise/${workoutId}")
     }
 
     fun goBack() {
